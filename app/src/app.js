@@ -14,7 +14,7 @@ import imageRoutes from "./routes/imageRoutes";
 import "./database";
 
 const whiteList = [
-  'http://localhost:3000'
+  'https://apirest-qiek.onrender.com'
 ];
 
 const corsOptions = {
