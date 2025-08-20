@@ -29,15 +29,7 @@ var _Image = require('./Image'); var _Image2 = _interopRequireDefault(_Image);
       email: {
         type: _sequelize.Sequelize.STRING,
         defaultValue: '',
-        unique: {
-          msg: "Email já existe"
         },
-        validate: {
-          isEmail: {
-            msg: 'Email Inválido!'
-          }
-        }
-      },
 
       idade: {
         type: _sequelize.Sequelize.INTEGER,
