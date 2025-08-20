@@ -1,5 +1,5 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _dotenv = require('dotenv'); var _dotenv2 = _interopRequireDefault(_dotenv);
-var _path = require('path');
+var _path = require('path');  // Mudado para join (consistente)
 _dotenv2.default.config();
 
 var _express = require('express'); var _express2 = _interopRequireDefault(_express);
@@ -16,31 +16,35 @@ require('./database');
 const whiteList = [
   'https://apirest-qiek.onrender.com',
   'http://localhost:3000',
+  undefined,  // Adicionado para Postman/tests sem origin
 ];
 
 const corsOptions = {
-  origin: function(origin, callback){
-    if( whiteList.indexOf(origin) !== -1 || !origin){
-      callback(null, true)
-    }else {
-      callback(new Error('Not allowed by Cors'))
+  origin: function (origin, callback) {
+    if (whiteList.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by Cors'));
     }
-  }
-}
+  },
+};
 
 class App {
   constructor() {
-    this.app = _express2.default.call(void 0, corsOptions);
+    this.app = _express2.default.call(void 0, );
     this.middlaware();
     this.routes();
   }
 
   middlaware() {
-    this.app.use(_cors2.default.call(void 0, ));
+    this.app.use(_cors2.default.call(void 0, corsOptions));
     this.app.use(_helmet2.default.call(void 0, ));
     this.app.use(_express2.default.urlencoded({ extended: true }));
     this.app.use(_express2.default.json());
-    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, "..", "uploads", "images")));
+    // Serving estático ajustado: process.cwd() + /app/uploads/images
+    const staticPath = _path.join.call(void 0, process.cwd(), 'app', 'uploads', 'images');
+    this.app.use('/images', _express2.default.static(staticPath));
+    console.log('Serving estático configurado para:', staticPath);  // Log para debug
   }
 
   routes() {

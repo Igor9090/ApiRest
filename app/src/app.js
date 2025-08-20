@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { resolve } from "path";
+import { join } from "path";  // Mudado para join (consistente)
 dotenv.config();
 
 import express from "express";
@@ -16,31 +16,35 @@ import "./database";
 const whiteList = [
   'https://apirest-qiek.onrender.com',
   'http://localhost:3000',
+  undefined,  // Adicionado para Postman/tests sem origin
 ];
 
 const corsOptions = {
-  origin: function(origin, callback){
-    if( whiteList.indexOf(origin) !== -1 || !origin){
-      callback(null, true)
-    }else {
-      callback(new Error('Not allowed by Cors'))
+  origin: function (origin, callback) {
+    if (whiteList.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by Cors'));
     }
-  }
-}
+  },
+};
 
 class App {
   constructor() {
-    this.app = express(corsOptions);
+    this.app = express();
     this.middlaware();
     this.routes();
   }
 
   middlaware() {
-    this.app.use(cors());
+    this.app.use(cors(corsOptions));
     this.app.use(helmet());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
-    this.app.use(express.static(resolve(__dirname, "..", "uploads", "images")));
+    // Serving estático ajustado: process.cwd() + /app/uploads/images
+    const staticPath = join(process.cwd(), 'app', 'uploads', 'images');
+    this.app.use('/images', express.static(staticPath));
+    console.log('Serving estático configurado para:', staticPath);  // Log para debug
   }
 
   routes() {
