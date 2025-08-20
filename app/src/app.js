@@ -14,7 +14,8 @@ import imageRoutes from "./routes/imageRoutes";
 import "./database";
 
 const whiteList = [
-  'https://apirest-qiek.onrender.com'
+  'https://apirest-qiek.onrender.com',
+  'http://localhost:3000',
 ];
 
 const corsOptions = {
@@ -39,7 +40,7 @@ class App {
     this.app.use(helmet());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
-    this.app.use(express.static(resolve(__dirname, "uploads")));
+    this.app.use(express.static(resolve(__dirname, "..", "uploads", "images")));
   }
 
   routes() {

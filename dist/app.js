@@ -14,7 +14,8 @@ var _imageRoutes = require('./routes/imageRoutes'); var _imageRoutes2 = _interop
 require('./database');
 
 const whiteList = [
-  'http://localhost:3000'
+  'https://apirest-qiek.onrender.com',
+  'http://localhost:3000',
 ];
 
 const corsOptions = {
@@ -39,7 +40,7 @@ class App {
     this.app.use(_helmet2.default.call(void 0, ));
     this.app.use(_express2.default.urlencoded({ extended: true }));
     this.app.use(_express2.default.json());
-    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, "uploads")));
+    this.app.use(_express2.default.static(_path.resolve.call(void 0, __dirname, "..", "uploads", "images")));
   }
 
   routes() {

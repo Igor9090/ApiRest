@@ -8,7 +8,8 @@ class ImageController {
   create(req, res) {
     return upload(req, res, async (error) => {
       if (error) {
-        return res.status(400).json({ errors: [error.code] });
+        console.error('Erro no Multer (detalhes):', error);
+        return res.status(400).json({ errors: [error.code || error.message] });
       }
 
       if (!req.file) {
@@ -22,10 +23,11 @@ class ImageController {
         return res.status(400).json({ errors: ['Id Inválido'] });
       }
       try {
+
         const image = await _Imagejs2.default.create({originalname, filename, aluno_id});
         return res.json(image);
       } catch (err) {
-
+        console.error('Erro ao salvar no BD:', err);
         return res.status(500).json({ errors: ['Erro ao salvar imagem no banco'] });
       }
     });
