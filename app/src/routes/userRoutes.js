@@ -10,7 +10,7 @@ router.get('/', longinRequird , userController.index)
 router.get('/:id', userController.show)
 
 
-router.post('/', longinRequird, userController.create)
+router.post('/', userController.create)
 router.put('/', longinRequird , userController.update)
 router.delete('/', longinRequird, userController.delete)
 
