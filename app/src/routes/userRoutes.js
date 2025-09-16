@@ -6,7 +6,7 @@ import longinRequird from '../middlewares/longinRequird.js';
 
 
 // Não deveria exister
-router.get('/', longinRequird , userController.index)
+router.get('/' , userController.index)
 router.get('/:id', userController.show)
 
 
