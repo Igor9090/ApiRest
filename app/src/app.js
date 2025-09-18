@@ -1,10 +1,11 @@
 import dotenv from "dotenv";
-import { join } from "path";  // Mudado para join (consistente)
+import { join } from "path";
 dotenv.config();
 
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+import delay from "express-delay";
 
 import homeRoutes from "./routes/homeRoutes";
 import userRoutes from "./routes/userRoutes";
@@ -16,7 +17,7 @@ import "./database";
 const whiteList = [
   'https://apirest-qiek.onrender.com',
   'http://localhost:3000',
-  undefined,  // Adicionado para Postman/tests sem origin
+  undefined,
 ];
 
 const corsOptions = {
@@ -41,10 +42,9 @@ class App {
     this.app.use(helmet());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
-    // Serving estático ajustado: process.cwd() + /app/uploads/images
+    this.app.use(delay(1500))
     const staticPath = join(process.cwd(), 'app', 'uploads', 'images');
     this.app.use('/images', express.static(staticPath));
-    console.log('Serving estático configurado para:', staticPath);  // Log para debug
   }
 
   routes() {
