@@ -1,5 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _sequelize = require('sequelize');
-var _Image = require('./Image'); var _Image2 = _interopRequireDefault(_Image);
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _sequelize = require('sequelize');
 
  class Aluno extends _sequelize.Model {
   static init(sequelize) {
@@ -69,12 +68,14 @@ var _Image = require('./Image'); var _Image2 = _interopRequireDefault(_Image);
         }
       },
     }, {
-      sequelize
+      sequelize,
+      tableName: 'alunos', // Adicione esta linha
+      underscored: true,   // Adicione esta linha se usar snake_case
     });
-    return this;
+    // REMOVA: return this;
   }
 
-  static associate(models){
-    this.hasMany(models.Image, {foreignKey: "aluno_id"})
+  static associate(models) {
+    this.hasMany(models.Image, { foreignKey: "aluno_id" });
   }
 } exports.default = Aluno;

@@ -1,5 +1,4 @@
 import { Sequelize, Model } from 'sequelize';
-import Image from './Image';
 
 export default class Aluno extends Model {
   static init(sequelize) {
@@ -69,12 +68,14 @@ export default class Aluno extends Model {
         }
       },
     }, {
-      sequelize
+      sequelize,
+      tableName: 'alunos', 
+      underscored: true,
     });
-    return this;
+
   }
 
-  static associate(models){
-    this.hasMany(models.Image, {foreignKey: "aluno_id"})
+  static associate(models) {
+    this.hasMany(models.Image, { foreignKey: "aluno_id" });
   }
 }

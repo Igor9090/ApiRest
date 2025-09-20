@@ -1,13 +1,31 @@
-"use strict"; function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _sequelize = require('sequelize');
-var _database = require('../config/database'); var _database2 = _interopRequireDefault(_database);
-var _Aluno = require('../models/Aluno'); var _Aluno2 = _interopRequireDefault(_Aluno);
-var _User = require('../models/User'); var _User2 = _interopRequireDefault(_User);
-var _Image = require('../models/Image'); var _Image2 = _interopRequireDefault(_Image);
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _sequelize = require('sequelize');
+var _databasejs = require('../config/database.js'); var _databasejs2 = _interopRequireDefault(_databasejs);
+var _Alunojs = require('../models/Aluno.js'); var _Alunojs2 = _interopRequireDefault(_Alunojs);
+var _Userjs = require('../models/User.js'); var _Userjs2 = _interopRequireDefault(_Userjs);
+var _Imagejs = require('../models/Image.js'); var _Imagejs2 = _interopRequireDefault(_Imagejs);
 
-const models = [_Aluno2.default, _User2.default, _Image2.default];
+const models = [_Alunojs2.default, _Userjs2.default, _Imagejs2.default];
 
-const connection = new (0, _sequelize.Sequelize)(_database2.default.development);
+class Database {
+  constructor() {
+    this.init();
+  }
 
-models.forEach((model) => model.init(connection));
-models.forEach((model) => model.associate && model.associate(connection.models));
+  init() {
+    this.connection = new (0, _sequelize.Sequelize)(_databasejs2.default.development);
 
+    // Inicializa modelos
+    models.forEach(model => {
+      model.init(this.connection);
+    });
+
+    // Configura associações
+    models.forEach(model => {
+      if (model.associate) {
+        model.associate(this.connection.models);
+      }
+    });
+  }
+}
+
+exports. default = new Database();

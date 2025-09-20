@@ -1,13 +1,29 @@
-import {Sequelize} from 'sequelize';
-import databaseConfig from '../config/database';
-import Aluno from '../models/Aluno';
-import User from '../models/User';
-import Image from '../models/Image'
+import { Sequelize } from 'sequelize';
+import databaseConfig from '../config/database.js';
+import Aluno from '../models/Aluno.js';
+import User from '../models/User.js';
+import Image from '../models/Image.js';
 
 const models = [Aluno, User, Image];
 
-const connection = new Sequelize(databaseConfig.development);
+class Database {
+  constructor() {
+    this.init();
+  }
 
-models.forEach((model) => model.init(connection));
-models.forEach((model) => model.associate && model.associate(connection.models));
+  init() {
+    this.connection = new Sequelize(databaseConfig.development);
 
+    models.forEach(model => {
+      model.init(this.connection);
+    });
+
+    models.forEach(model => {
+      if (model.associate) {
+        model.associate(this.connection.models);
+      }
+    });
+  }
+}
+
+export default new Database();

@@ -7,12 +7,17 @@ import cors from "cors";
 import helmet from "helmet";
 import delay from "express-delay";
 
-import homeRoutes from "./routes/homeRoutes";
-import userRoutes from "./routes/userRoutes";
-import tokenRoutes from "./routes/tokenRoutes";
-import alunoRoutes from "./routes/alunoRoutes";
-import imageRoutes from "./routes/imageRoutes";
-import "./database";
+import homeRoutes from "./routes/homeRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import tokenRoutes from "./routes/tokenRoutes.js";
+import alunoRoutes from "./routes/alunoRoutes.js";
+import imageRoutes from "./routes/imageRoutes.js";
+import database from "./database/index.js";
+
+
+database.connection.authenticate()
+  .then(() => console.log('✅ Conexão com PostgreSQL estabelecida com sucesso!'))
+  .catch(error => console.error('❌ Erro ao conectar com PostgreSQL:', error));
 
 const whiteList = [
   'https://apirest-qiek.onrender.com',

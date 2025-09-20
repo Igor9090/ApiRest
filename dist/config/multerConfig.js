@@ -1,20 +1,18 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _multer = require('multer'); var _multer2 = _interopRequireDefault(_multer);
-var _path = require('path');  // Mudado para join (mais seguro que resolve)
-var _fs = require('fs'); var _fs2 = _interopRequireDefault(_fs);  // Built-in para criar pasta dinamicamente
+var _path = require('path');
+var _fs = require('fs'); var _fs2 = _interopRequireDefault(_fs);
 
 const rand = () => Math.floor(Math.random() * 10000 + 10000);
 
-// Diretório de destino: process.cwd() é a raiz, + /app/uploads/images
 const uploadDir = _path.join.call(void 0, process.cwd(), 'app', 'uploads', 'images');
 
-// Cria a pasta se não existir (com try-catch para debug)
 try {
   if (!_fs2.default.existsSync(uploadDir)) {
-    _fs2.default.mkdirSync(uploadDir, { recursive: true });  // recursive: cria pastas aninhadas
-    console.log('Pasta de uploads criada em:', uploadDir);  // Log para confirmar no terminal
+    _fs2.default.mkdirSync(uploadDir, { recursive: true });
+    console.log('Pasta de uploads criada em:', uploadDir);
   }
 } catch (err) {
-  console.error('Erro ao criar pasta de uploads:', err);  // Mostra se der pau
+  console.error('Erro ao criar pasta de uploads:', err);
 }
 
 exports. default = {

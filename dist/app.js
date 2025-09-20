@@ -1,22 +1,28 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _dotenv = require('dotenv'); var _dotenv2 = _interopRequireDefault(_dotenv);
-var _path = require('path');  // Mudado para join (consistente)
+var _path = require('path');
 _dotenv2.default.config();
 
 var _express = require('express'); var _express2 = _interopRequireDefault(_express);
 var _cors = require('cors'); var _cors2 = _interopRequireDefault(_cors);
 var _helmet = require('helmet'); var _helmet2 = _interopRequireDefault(_helmet);
+var _expressdelay = require('express-delay'); var _expressdelay2 = _interopRequireDefault(_expressdelay);
 
-var _homeRoutes = require('./routes/homeRoutes'); var _homeRoutes2 = _interopRequireDefault(_homeRoutes);
-var _userRoutes = require('./routes/userRoutes'); var _userRoutes2 = _interopRequireDefault(_userRoutes);
-var _tokenRoutes = require('./routes/tokenRoutes'); var _tokenRoutes2 = _interopRequireDefault(_tokenRoutes);
-var _alunoRoutes = require('./routes/alunoRoutes'); var _alunoRoutes2 = _interopRequireDefault(_alunoRoutes);
-var _imageRoutes = require('./routes/imageRoutes'); var _imageRoutes2 = _interopRequireDefault(_imageRoutes);
-require('./database');
+var _homeRoutesjs = require('./routes/homeRoutes.js'); var _homeRoutesjs2 = _interopRequireDefault(_homeRoutesjs);
+var _userRoutesjs = require('./routes/userRoutes.js'); var _userRoutesjs2 = _interopRequireDefault(_userRoutesjs);
+var _tokenRoutesjs = require('./routes/tokenRoutes.js'); var _tokenRoutesjs2 = _interopRequireDefault(_tokenRoutesjs);
+var _alunoRoutesjs = require('./routes/alunoRoutes.js'); var _alunoRoutesjs2 = _interopRequireDefault(_alunoRoutesjs);
+var _imageRoutesjs = require('./routes/imageRoutes.js'); var _imageRoutesjs2 = _interopRequireDefault(_imageRoutesjs);
+var _indexjs = require('./database/index.js'); var _indexjs2 = _interopRequireDefault(_indexjs); 
+
+
+_indexjs2.default.connection.authenticate()
+  .then(() => console.log('✅ Conexão com PostgreSQL estabelecida com sucesso!'))
+  .catch(error => console.error('❌ Erro ao conectar com PostgreSQL:', error));
 
 const whiteList = [
   'https://apirest-qiek.onrender.com',
   'http://localhost:3000',
-  undefined,  // Adicionado para Postman/tests sem origin
+  undefined,
 ];
 
 const corsOptions = {
@@ -41,18 +47,17 @@ class App {
     this.app.use(_helmet2.default.call(void 0, ));
     this.app.use(_express2.default.urlencoded({ extended: true }));
     this.app.use(_express2.default.json());
-    // Serving estático ajustado: process.cwd() + /app/uploads/images
+    this.app.use(_expressdelay2.default.call(void 0, 1500))
     const staticPath = _path.join.call(void 0, process.cwd(), 'app', 'uploads', 'images');
     this.app.use('/images', _express2.default.static(staticPath));
-    console.log('Serving estático configurado para:', staticPath);  // Log para debug
   }
 
   routes() {
-    this.app.use("/", _homeRoutes2.default);
-    this.app.use("/users/", _userRoutes2.default);
-    this.app.use("/tokens/", _tokenRoutes2.default);
-    this.app.use("/alunos/", _alunoRoutes2.default);
-    this.app.use("/images/", _imageRoutes2.default);
+    this.app.use("/", _homeRoutesjs2.default);
+    this.app.use("/users/", _userRoutesjs2.default);
+    this.app.use("/tokens/", _tokenRoutesjs2.default);
+    this.app.use("/alunos/", _alunoRoutesjs2.default);
+    this.app.use("/images/", _imageRoutesjs2.default);
   }
 }
 

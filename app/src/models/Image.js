@@ -1,7 +1,6 @@
 import { Sequelize, Model } from 'sequelize';
 import appConfig from '../config/appConfig';
 
-
 export default class Image extends Model {
   static init(sequelize) {
     super.init({
@@ -25,17 +24,19 @@ export default class Image extends Model {
       },
       url: {
         type: Sequelize.VIRTUAL,
-        get(){
+        get() {
           return `${appConfig.url}/images/${this.getDataValue('filename')}`
         }
       }
     }, {
-      sequelize
+      sequelize,
+      tableName: 'images',
+      underscored: true,
     });
-    return this;
+
   }
 
-  static associate(models){
-    this.belongsTo(models.Image , {foreignKey: "aluno_id"})
+  static associate(models) {
+    this.belongsTo(models.Aluno, { foreignKey: "aluno_id" }); 
   }
 }

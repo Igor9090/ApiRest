@@ -1,4 +1,3 @@
-
 import { Sequelize, Model } from 'sequelize';
 import bcrypt from 'bcryptjs';
 
@@ -41,20 +40,21 @@ export default class User extends Model {
           }
         }
       }
-
     }, {
-      sequelize
+      sequelize,
+      tableName: 'users', 
+      underscored: true,
     });
 
     this.addHook('beforeSave', async (user) => {
-      if(user.password){
+      if (user.password) {
         user.password_hash = await bcrypt.hash(user.password, 8);
       }
-    })
-    return this;
+    });
+
   }
 
-  passwordIsValid(password){
-    return bcrypt.compare(password, this.password_hash)
+  passwordIsValid(password) {
+    return bcrypt.compare(password, this.password_hash);
   }
 }

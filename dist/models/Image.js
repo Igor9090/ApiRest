@@ -1,6 +1,5 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _sequelize = require('sequelize');
-var _appConfig = require('../config/appConfig'); var _appConfig2 = _interopRequireDefault(_appConfig);
-
+var _appConfig = require('../config/appConfig'); var _appConfig2 = _interopRequireDefault(_appConfig); // Corrija o caminho
 
  class Image extends _sequelize.Model {
   static init(sequelize) {
@@ -25,17 +24,19 @@ var _appConfig = require('../config/appConfig'); var _appConfig2 = _interopRequi
       },
       url: {
         type: _sequelize.Sequelize.VIRTUAL,
-        get(){
+        get() {
           return `${_appConfig2.default.url}/images/${this.getDataValue('filename')}`
         }
       }
     }, {
-      sequelize
+      sequelize,
+      tableName: 'images', // Adicione
+      underscored: true,   // Adicione
     });
-    return this;
+    // REMOVA: return this;
   }
 
-  static associate(models){
-    this.belongsTo(models.Image , {foreignKey: "aluno_id"})
+  static associate(models) {
+    this.belongsTo(models.Aluno, { foreignKey: "aluno_id" }); // Corrigido: models.Aluno
   }
 } exports.default = Image;

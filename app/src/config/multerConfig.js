@@ -1,20 +1,18 @@
 import multer from "multer";
-import { extname, join } from 'path';  // Mudado para join (mais seguro que resolve)
-import fs from 'fs';  // Built-in para criar pasta dinamicamente
+import { extname, join } from 'path';
+import fs from 'fs';
 
 const rand = () => Math.floor(Math.random() * 10000 + 10000);
 
-// Diretório de destino: process.cwd() é a raiz, + /app/uploads/images
 const uploadDir = join(process.cwd(), 'app', 'uploads', 'images');
 
-// Cria a pasta se não existir (com try-catch para debug)
 try {
   if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });  // recursive: cria pastas aninhadas
-    console.log('Pasta de uploads criada em:', uploadDir);  // Log para confirmar no terminal
+    fs.mkdirSync(uploadDir, { recursive: true });
+    console.log('Pasta de uploads criada em:', uploadDir);
   }
 } catch (err) {
-  console.error('Erro ao criar pasta de uploads:', err);  // Mostra se der pau
+  console.error('Erro ao criar pasta de uploads:', err);
 }
 
 export default {
