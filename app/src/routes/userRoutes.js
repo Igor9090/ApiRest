@@ -5,10 +5,8 @@ import userController from "../controllers/UserControllers.js"
 import longinRequird from '../middlewares/longinRequird.js';
 
 
-// Não deveria exister
 router.get('/' , userController.index)
 router.get('/:id', userController.show)
-
 
 router.post('/', userController.create)
 router.put('/', longinRequird , userController.update)
