@@ -1,9 +1,11 @@
 import { Router } from 'express';
 const router = new Router();
 
-import imageController from "../controllers/ImageControllers.js"
-import loginRequired from '../middlewares/longinRequird'
+import imageController from "../controllers/ImageControllers.js";
 
-router.post('/', loginRequired, imageController.create)
 
-export default router
+router.post('/', imageController.create);
+router.get('/', imageController.index);
+router.get('/:id', imageController.show);
+
+export default router;

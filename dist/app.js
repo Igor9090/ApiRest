@@ -1,5 +1,5 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _dotenv = require('dotenv'); var _dotenv2 = _interopRequireDefault(_dotenv);
-var _path = require('path');
+var _path = require('path'); // ⬅️ ADICIONE RESOLVE AQUI
 _dotenv2.default.config();
 
 var _express = require('express'); var _express2 = _interopRequireDefault(_express);
@@ -12,44 +12,47 @@ var _userRoutesjs = require('./routes/userRoutes.js'); var _userRoutesjs2 = _int
 var _tokenRoutesjs = require('./routes/tokenRoutes.js'); var _tokenRoutesjs2 = _interopRequireDefault(_tokenRoutesjs);
 var _alunoRoutesjs = require('./routes/alunoRoutes.js'); var _alunoRoutesjs2 = _interopRequireDefault(_alunoRoutesjs);
 var _imageRoutesjs = require('./routes/imageRoutes.js'); var _imageRoutesjs2 = _interopRequireDefault(_imageRoutesjs);
-var _indexjs = require('./database/index.js'); var _indexjs2 = _interopRequireDefault(_indexjs); 
-
+var _indexjs = require('./database/index.js'); var _indexjs2 = _interopRequireDefault(_indexjs);
 
 _indexjs2.default.connection.authenticate()
-  .then(() => console.log('✅ Conexão com PostgreSQL estabelecida com sucesso!'))
-  .catch(error => console.error('❌ Erro ao conectar com PostgreSQL:', error));
+  .then(() => console.log("✅ Conexão com PostgreSQL estabelecida com sucesso!"))
+  .catch((error) => console.error("❌ Erro ao conectar com PostgreSQL:", error));
 
 const whiteList = [
-  'https://apirest-qiek.onrender.com',
-  'http://localhost:3000',
+  "http://localhost:3000",
+  "https://apirest-qiek.onrender.com",
+  "http://localhost:3001", // ⬅️ ADICIONE SEU FRONTEND
   undefined,
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whiteList.indexOf(origin) !== -1 || !origin) {
+    if (whiteList.includes(origin) || !origin) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by Cors'));
+      callback(new Error("❌ Not allowed by CORS"));
     }
   },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 class App {
   constructor() {
     this.app = _express2.default.call(void 0, );
-    this.middlaware();
+    this.middleware();
     this.routes();
   }
 
-  middlaware() {
+  middleware() {
     this.app.use(_cors2.default.call(void 0, corsOptions));
     this.app.use(_helmet2.default.call(void 0, ));
     this.app.use(_express2.default.urlencoded({ extended: true }));
     this.app.use(_express2.default.json());
-    this.app.use(_expressdelay2.default.call(void 0, 1500))
-    const staticPath = _path.join.call(void 0, process.cwd(), 'app', 'uploads', 'images');
-    this.app.use('/images', _express2.default.static(staticPath));
+    this.app.use(_expressdelay2.default.call(void 0, 500));
+
+    // ⬇️ CORRIGIDO - Agora resolve está importado
+    this.app.use('/images', _express2.default.static(_path.resolve.call(void 0, __dirname, '..', 'app', 'uploads', 'images')));
   }
 
   routes() {
@@ -57,7 +60,7 @@ class App {
     this.app.use("/users/", _userRoutesjs2.default);
     this.app.use("/tokens/", _tokenRoutesjs2.default);
     this.app.use("/alunos/", _alunoRoutesjs2.default);
-    this.app.use("/images/", _imageRoutesjs2.default);
+    this.app.use("/api/images/", _imageRoutesjs2.default);
   }
 }
 

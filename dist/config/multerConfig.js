@@ -17,7 +17,7 @@ try {
 
 exports. default = {
   fileFilter: (req, file, cb) => {
-    if (file.mimetype !== 'image/jpg' && file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png') {  // Adicionado PNG
+    if (file.mimetype !== 'image/jpg' && file.mimetype !== 'image/jpeg' && file.mimetype !== 'image/png') {  
       return cb(new _multer2.default.MulterError('O Arquivo precisa ser do tipo PNG, JPG ou JPEG'));
     }
     return cb(null, true);

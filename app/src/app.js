@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { join } from "path";
+import { join, resolve } from "path"; // ⬅️ ADICIONE RESOLVE AQUI
 dotenv.config();
 
 import express from "express";
@@ -11,6 +11,7 @@ import homeRoutes from "./routes/homeRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import tokenRoutes from "./routes/tokenRoutes.js";
 import alunoRoutes from "./routes/alunoRoutes.js";
+import imageRoutes from "./routes/imageRoutes.js"
 import database from "./database/index.js";
 
 database.connection.authenticate()
@@ -20,6 +21,7 @@ database.connection.authenticate()
 const whiteList = [
   "http://localhost:3000",
   "https://apirest-qiek.onrender.com",
+  "http://localhost:3001", // ⬅️ ADICIONE SEU FRONTEND
   undefined,
 ];
 
@@ -49,9 +51,8 @@ class App {
     this.app.use(express.json());
     this.app.use(delay(500));
 
-
-    const staticPath = join(process.cwd(), "app", "uploads", "images");
-    this.app.use("/images", express.static(staticPath));
+    // ⬇️ CORRIGIDO - Agora resolve está importado
+    this.app.use('/images', express.static(resolve(__dirname, '..', 'app', 'uploads', 'images')));
   }
 
   routes() {
@@ -59,7 +60,7 @@ class App {
     this.app.use("/users/", userRoutes);
     this.app.use("/tokens/", tokenRoutes);
     this.app.use("/alunos/", alunoRoutes);
-
+    this.app.use("/api/images/", imageRoutes);
   }
 }
 

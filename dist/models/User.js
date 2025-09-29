@@ -42,8 +42,8 @@ var _bcryptjs = require('bcryptjs'); var _bcryptjs2 = _interopRequireDefault(_bc
       }
     }, {
       sequelize,
-      tableName: 'users', // Adicione
-      underscored: true,  // Adicione
+      tableName: 'users', 
+      underscored: true,
     });
 
     this.addHook('beforeSave', async (user) => {
@@ -51,7 +51,7 @@ var _bcryptjs = require('bcryptjs'); var _bcryptjs2 = _interopRequireDefault(_bc
         user.password_hash = await _bcryptjs2.default.hash(user.password, 8);
       }
     });
-    // REMOVA: return this;
+
   }
 
   passwordIsValid(password) {

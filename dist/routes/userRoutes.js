@@ -5,10 +5,8 @@ var _UserControllersjs = require('../controllers/UserControllers.js'); var _User
 var _longinRequirdjs = require('../middlewares/longinRequird.js'); var _longinRequirdjs2 = _interopRequireDefault(_longinRequirdjs);
 
 
-// Não deveria exister
 router.get('/' , _UserControllersjs2.default.index)
 router.get('/:id', _UserControllersjs2.default.show)
-
 
 router.post('/', _UserControllersjs2.default.create)
 router.put('/', _longinRequirdjs2.default , _UserControllersjs2.default.update)

@@ -14,12 +14,10 @@ class Database {
   init() {
     this.connection = new (0, _sequelize.Sequelize)(_databasejs2.default.development);
 
-    // Inicializa modelos
     models.forEach(model => {
       model.init(this.connection);
     });
 
-    // Configura associações
     models.forEach(model => {
       if (model.associate) {
         model.associate(this.connection.models);

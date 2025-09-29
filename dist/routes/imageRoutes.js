@@ -2,8 +2,10 @@
 const router = new (0, _express.Router)();
 
 var _ImageControllersjs = require('../controllers/ImageControllers.js'); var _ImageControllersjs2 = _interopRequireDefault(_ImageControllersjs);
-var _longinRequird = require('../middlewares/longinRequird'); var _longinRequird2 = _interopRequireDefault(_longinRequird);
 
-router.post('/', _longinRequird2.default, _ImageControllersjs2.default.create)
 
-exports. default = router
+router.post('/', _ImageControllersjs2.default.create);
+router.get('/', _ImageControllersjs2.default.index);
+router.get('/:id', _ImageControllersjs2.default.show);
+
+exports. default = router;

@@ -69,10 +69,10 @@
       },
     }, {
       sequelize,
-      tableName: 'alunos', // Adicione esta linha
-      underscored: true,   // Adicione esta linha se usar snake_case
+      tableName: 'alunos', 
+      underscored: true,
     });
-    // REMOVA: return this;
+
   }
 
   static associate(models) {
