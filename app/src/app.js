@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { join, resolve } from "path"; // ⬅️ ADICIONE RESOLVE AQUI
+import { join, resolve } from "path";
 dotenv.config();
 
 import express from "express";
@@ -21,7 +21,8 @@ database.connection.authenticate()
 const whiteList = [
   "http://localhost:3000",
   "https://apirest-qiek.onrender.com",
-  "http://localhost:3001", // ⬅️ ADICIONE SEU FRONTEND
+  "http://localhost:3001",
+  "http://localhost:3002", 
   undefined,
 ];
 
@@ -35,6 +36,7 @@ const corsOptions = {
   },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 };
 
 class App {
@@ -51,8 +53,7 @@ class App {
     this.app.use(express.json());
     this.app.use(delay(500));
 
-    // ⬇️ CORRIGIDO - Agora resolve está importado
-    this.app.use('/images', express.static(resolve(__dirname, '..', 'app', 'uploads', 'images')));
+    this.app.use('/images', cors(corsOptions), express.static(resolve(__dirname, '..', 'app', 'uploads', 'images')));
   }
 
   routes() {
