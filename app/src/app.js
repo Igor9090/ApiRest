@@ -22,7 +22,7 @@ const whiteList = [
   "http://localhost:3000",
   "https://apirest-qiek.onrender.com",
   "http://localhost:3001",
-  "http://localhost:3002", 
+  "http://localhost:3002",
   undefined,
 ];
 
@@ -48,12 +48,15 @@ class App {
 
   middleware() {
     this.app.use(cors(corsOptions));
-    this.app.use(helmet());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(delay(500));
 
+    // ⬇️ IMAGENS COM CORS (ANTES DO HELMET)
     this.app.use('/images', cors(corsOptions), express.static(resolve(__dirname, '..', 'app', 'uploads', 'images')));
+
+    // ⬇️ HELMET APENAS PARA AS OUTRAS ROTAS
+    this.app.use(helmet());
   }
 
   routes() {
