@@ -19,10 +19,8 @@ database.connection.authenticate()
   .catch((error) => console.error("❌ Erro ao conectar com PostgreSQL:", error));
 
 const whiteList = [
-  "http://localhost:3000",
   "https://apirest-qiek.onrender.com",
-  "http://localhost:3001",
-  "http://localhost:3002",
+  "https://consumirapi-37z4.onrender.com",
   undefined,
 ];
 
@@ -52,10 +50,8 @@ class App {
     this.app.use(express.json());
     this.app.use(delay(500));
 
-    // ⬇️ IMAGENS COM CORS (ANTES DO HELMET)
     this.app.use('/images', cors(corsOptions), express.static(resolve(__dirname, '..', 'app', 'uploads', 'images')));
 
-    // ⬇️ HELMET APENAS PARA AS OUTRAS ROTAS
     this.app.use(helmet());
   }
 
