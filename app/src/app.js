@@ -21,7 +21,7 @@ database.connection.authenticate()
 const whiteList = [
   "https://apirest-qiek.onrender.com",
   "https://consumirapi-37z4.onrender.com",
-  "http://localhost:3000/",
+  "http://localhost:3000",
   undefined,
 ];
 
